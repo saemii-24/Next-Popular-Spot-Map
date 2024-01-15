@@ -8,8 +8,9 @@ import {
 } from "react-icons/ai";
 
 import { HiOutlineMapPin } from "react-icons/hi2";
+import { StoreType } from "@/interface";
 interface StoreBoxProps {
-  store: any;
+  store: StoreType;
   setStore: Dispatch<SetStateAction<any>>;
 }
 const StoreBox = ({ store, setStore }: StoreBoxProps) => {
@@ -22,8 +23,8 @@ const StoreBox = ({ store, setStore }: StoreBoxProps) => {
               <div className="flex gap-4 items-center">
                 <Image
                   src={
-                    store?.bizcnd_code_nm
-                      ? `/images/markers/${store?.bizcnd_code_nm}.png`
+                    store?.category
+                      ? `/images/markers/${store?.category}.png`
                       : `/images/markers/default.png`
                   }
                   width={40}
@@ -31,8 +32,8 @@ const StoreBox = ({ store, setStore }: StoreBoxProps) => {
                   alt="아이콘 이미지"
                 />
                 <div>
-                  <div className="font-semibold">{store?.upso_nm}</div>
-                  <div className="text-sm">{store?.cob_code_nm}</div>
+                  <div className="font-semibold">{store?.name}</div>
+                  <div className="text-sm">{store?.storeType}</div>
                 </div>
               </div>
               <button
@@ -46,19 +47,19 @@ const StoreBox = ({ store, setStore }: StoreBoxProps) => {
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <HiOutlineMapPin />
-              {store?.rdn_code_nm}
+              {store?.address}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlinePhone />
-              {store?.tel_no}
+              {store?.phone}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlineInfoCircle />
-              {store?.crtfc_gbn_nm}
+              {store?.storeType}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlineCheck />
-              {store?.bizcnd_code_nm}
+              {store?.category}
             </div>
           </div>
           <button
