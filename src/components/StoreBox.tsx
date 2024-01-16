@@ -10,7 +10,7 @@ import {
 import { HiOutlineMapPin } from "react-icons/hi2";
 import { StoreType } from "@/interface";
 interface StoreBoxProps {
-  store: StoreType;
+  store: StoreType | null;
   setStore: Dispatch<SetStateAction<any>>;
 }
 const StoreBox = ({ store, setStore }: StoreBoxProps) => {
