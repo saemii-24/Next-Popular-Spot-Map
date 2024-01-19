@@ -10,18 +10,25 @@ declare global {
 //서울시 데이터이므로 강남역을 기준
 const DEFAULT_LAT = 37.497625203;
 const DEFAULT_LNG = 127.03088397;
+const DEFAULT_ZOOM = 3;
 
 interface MapProps {
   setMap: Dispatch<SetStateAction<any>>;
+  lat?: string | null;
+  lng?: string | null;
+  zoom?: number;
 }
 
-const Map = ({ setMap }: MapProps) => {
+const Map = ({ setMap, lat, lng, zoom }: MapProps) => {
   const loadKakaoMap = () => {
     window.kakao.maps.load(() => {
       const mapContainer = document.getElementById("map");
       const mapOption = {
-        center: new window.kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LNG),
-        lever: 3,
+        center: new window.kakao.maps.LatLng(
+          lat ?? DEFAULT_LAT,
+          lng ?? DEFAULT_LNG
+        ),
+        level: zoom ?? DEFAULT_ZOOM,
       };
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
 
