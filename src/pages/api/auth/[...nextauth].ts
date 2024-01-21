@@ -1,13 +1,16 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/db";
 import GoogleProivder from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
 
-const prisma = new PrismaClient();
-
 export const authOptions: any = {
+  session: {
+    startegy: "jwt" as const,
+    maxAge: 60 * 60 * 24, // 세션의 유지 시간 24시간
+    updateAge: 60 * 60 * 2, // 두시간마다 업데이트 함
+  },
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProivder({

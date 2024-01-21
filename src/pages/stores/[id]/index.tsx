@@ -8,7 +8,6 @@ import Map from "@/components/Map";
 import Marker from "@/components/Marker";
 
 const StorePage = () => {
-  const [map, setMap] = useState(null);
   const router = useRouter();
   const { id } = router.query;
 
@@ -113,12 +112,11 @@ const StorePage = () => {
       {isSuccess && (
         <div className="overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[600px]">
           <Map
-            setMap={setMap}
             lat={String(Number(store?.lat) - 0.00025)} //위치 보정
             lng={store?.lng}
             zoom={1}
           />
-          <Marker map={map} store={store} />
+          <Marker store={store} />
         </div>
       )}
     </>
