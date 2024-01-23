@@ -10,7 +10,7 @@ const LoginPage = () => {
   const { status, data: session } = useSession();
   const router = useRouter();
 
-  console.log(status);
+  // console.log(status);
   useEffect(() => {
     if (status === "authenticated") {
       router.replace("/");
