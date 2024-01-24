@@ -1,27 +1,66 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/db";
 import { StoreApiResponse, StoreType } from "@/interface";
+import axios from "axios";
 
 interface ResponseType {
   page?: string;
   limit?: string;
   q?: string;
   district?: string;
+  id?: string;
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType>
+  res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType | null>
 ) {
-  const { page = "", limit = "", q, district }: ResponseType = req.query;
+  const { page = "", limit = "", q, district, id }: ResponseType = req.query;
   if (req.method === "POST") {
     //데이터 생성 처리
-    const data = req.body;
+    const formData = req.body;
+    const headers = {
+      Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
+    };
+    const { data } = await axios.get(
+      ` https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
+        formData.address
+      )}`,
+      { headers }
+    );
     //prisma에 새로운 데이터를 넣기 위함
     const result = await prisma.store.create({
-      data: { ...data },
+      data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
     });
     return res.status(200).json(result);
+  } else if (req.method === "PUT") {
+    //데이터 수정 처리
+    const formData = req.body;
+    const headers = {
+      Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
+    };
+    const { data } = await axios.get(
+      ` https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
+        formData.address
+      )}`,
+      { headers }
+    );
+    const result = await prisma.store.update({
+      where: { id: formData.id }, //어떤 데이터를 업데이트 할 것인지 조건문
+      data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
+    });
+    return res.status(200).json(result);
+  } else if (req.method === "DELETE") {
+    //데이터 삭제
+    if (id) {
+      const result = await prisma.store.delete({
+        where: {
+          id: parseInt(id),
+        },
+      });
+      return res.status(200).json(result);
+    }
+    return res.status(500).json(null);
   } else {
     if (page) {
       const count = await prisma.store.count();

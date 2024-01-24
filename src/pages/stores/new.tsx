@@ -4,13 +4,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { StoreType } from "@/interface";
+import AddressSearch from "@/components/AddressSearch";
 
-export default function StoreNewPage() {
+const StoreNewPage = () => {
   const router = useRouter();
 
   const {
     register, //필드 등록
     handleSubmit, //폼 제출
+    setValue, //
     formState: { errors }, //에러
   } = useForm<StoreType>();
 
@@ -113,25 +115,11 @@ export default function StoreNewPage() {
               </div>
             </div>
 
-            <div className="col-span-full">
-              <label
-                htmlFor="address"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                추후 검색 api 사용예정
-              </label>
-              <div className="mt-2">
-                <input
-                  {...register("address", { required: true })}
-                  className="block w-full rounded-md border-0 outline-none px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-                {errors?.phone?.type === "required" && (
-                  <div className="pt-2 text-xs text-red-600">
-                    필수 입력사항입니다.
-                  </div>
-                )}
-              </div>
-            </div>
+            <AddressSearch
+              register={register}
+              setValue={setValue}
+              errors={errors}
+            />
 
             <div className="sm:col-span-2 sm:col-start-1">
               <label
@@ -207,4 +195,5 @@ export default function StoreNewPage() {
       </div>
     </form>
   );
-}
+};
+export default StoreNewPage;
