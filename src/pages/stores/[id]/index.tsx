@@ -7,6 +7,7 @@ import Map from "@/components/Map";
 import Marker from "@/components/Marker";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Like from "@/components/Like";
 import { toast } from "react-toastify";
 
 const StorePage = () => {
@@ -71,8 +72,9 @@ const StorePage = () => {
               {store?.address}
             </p>
           </div>
-          {status === "authenticated" && (
+          {status === "authenticated" && store && (
             <div className="flex items-center gap-4 px-4 py-3">
+              {<Like storeId={store.id} />}
               <Link
                 className="underline hover:text-gray-400 text-sm"
                 href={`/stores/${store?.id}/edit`}

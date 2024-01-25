@@ -10,6 +10,7 @@ import SearchFilter from "@/components/SearchFilter";
 import { useRouter } from "next/router";
 import { searchState } from "@/atom";
 import { useRecoilValue } from "recoil";
+import StoreList from "@/components/StoreList";
 
 const StoreListPage = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -82,55 +83,7 @@ const StoreListPage = () => {
           stores?.pages?.map((page, index) => (
             <React.Fragment key={index}>
               {page.data.map((store: StoreType, i: number) => (
-                <li
-                  onClick={() => router.push(`/stores/${store.id}`)}
-                  className="flex justify-between gap-x-6 py-4 cursor-pointer hover:bg-gray-50"
-                  key={i}
-                >
-                  <div className="flex gap-x-4">
-                    <Image
-                      className="h-12"
-                      src={
-                        store?.category
-                          ? `/images/markers/${store?.category}.png`
-                          : `/images/markers/default.png`
-                      }
-                      width={48}
-                      height={48}
-                      alt="아이콘 이미지"
-                    />
-                    <div>
-                      <div className="text-sm font-semibold leading-9 text-gray-900">
-                        {store?.name}
-                      </div>
-                      <div className="mt-1 text-xs truncate font-semibold leading-5 text-gray-500">
-                        {store?.storeType}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="hidden sm:flex sm:flex-col sm:items-end">
-                    <div className="text-sm font-semibold leading-9 text-gray-900">
-                      {store?.address}
-                    </div>
-                    <div className="mt-1 text-xs truncate font-semibold leading-5 text-gray-500">
-                      <>
-                        {store?.phone ? (
-                          <>{store?.phone} | </>
-                        ) : (
-                          <>{store?.phone}</>
-                        )}
-                      </>
-                      <>
-                        {store?.category ? (
-                          <>{store?.foodCertifyName} | </>
-                        ) : (
-                          <>{store?.foodCertifyName}</>
-                        )}
-                      </>
-                      <>{store?.category}</>
-                    </div>
-                  </div>
-                </li>
+                <StoreList store={store} i={i} key={i} />
               ))}
             </React.Fragment>
           ))
