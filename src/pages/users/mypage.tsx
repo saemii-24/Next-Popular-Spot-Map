@@ -7,7 +7,7 @@ const MyPage = () => {
   const { data: session } = useSession();
   return (
     <div className="md:max-w-5xl mx-auto px-4 py-8">
-      {/* <div className="px-4 sm:px-0">
+      <div className="px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           마이페이지
         </h3>
@@ -62,7 +62,7 @@ const MyPage = () => {
             </dd>
           </div>
         </dl>
-      </div> */}
+      </div>
     </div>
   );
 };
