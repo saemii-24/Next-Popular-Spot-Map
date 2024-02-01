@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Like from "@/components/Like";
 import { toast } from "react-toastify";
+import Comments from "@/components/comments";
 
 const StorePage = () => {
   const router = useRouter();
@@ -154,14 +155,18 @@ const StorePage = () => {
         </div>
       </div>
       {isSuccess && (
-        <div className="overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[600px]">
-          <Map
-            lat={String(Number(store?.lat) - 0.00025)} //위치 보정
-            lng={store?.lng}
-            zoom={1}
-          />
-          <Marker store={store} />
-        </div>
+        <>
+          {" "}
+          <div className="overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[600px]">
+            <Map
+              lat={String(Number(store?.lat) - 0.00025)} //위치 보정
+              lng={store?.lng}
+              zoom={1}
+            />
+            <Marker store={store} />
+          </div>
+          <Comments storeId={store.id} />
+        </>
       )}
     </>
   );

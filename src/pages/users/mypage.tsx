@@ -2,9 +2,32 @@
 /* eslint-disable-next-line @next/next/no-img-element */
 import React from "react";
 import { useSession, signOut } from "next-auth/react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+import { CommentApiResponse } from "@/interface";
+import CommentList from "@/components/comments/CommentList";
+import Pagination from "@/components/Pagination";
 
 const MyPage = () => {
   const { data: session } = useSession();
+
+  const { status } = useSession();
+  const router = useRouter();
+  const { page = "1" }: any = router.query;
+
+  const fetchComments = async () => {
+    const { data } = await axios.get(
+      `/api/comments?&limit=10&page=${page}&user=${true}`
+    );
+    return data as CommentApiResponse;
+  };
+
+  const { data: comments, refetch } = useQuery(
+    `comments-${page}`,
+    fetchComments
+  );
+
   return (
     <div className="md:max-w-5xl mx-auto px-4 py-8">
       <div className="px-4 sm:px-0">
@@ -42,7 +65,7 @@ const MyPage = () => {
                 alt="프로필 이미지"
                 width={48}
                 height={48}
-                className="rounded-full"
+                className="rounded-full w-12 h-12"
                 src={session?.user.image || "/images/markers/default.png"}
               />
             </dd>
@@ -63,6 +86,21 @@ const MyPage = () => {
           </div>
         </dl>
       </div>
+      <div className="mt-8 px-4 sm:px-0">
+        <h3 className="text-base font-semibold leading-7 text-gray-900">
+          내가 쓴 댓글
+        </h3>
+        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+          댓글 리스트
+        </p>
+      </div>
+      <CommentList comments={comments} displayStore={true} />
+
+      <Pagination
+        total={comments?.totalPage}
+        page={page}
+        pathname="/users/mypage"
+      />
     </div>
   );
 };
