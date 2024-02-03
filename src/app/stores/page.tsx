@@ -1,13 +1,13 @@
-import React, { useRef, useEffect, useCallback, useState } from "react";
-import { StoreApiResponse, StoreType } from "@/interface";
-import Image from "next/image";
+"use client";
+
+import React, { useRef, useEffect, useCallback } from "react";
+import { StoreType } from "@/interface";
 import axios from "axios";
-import { useQuery, useInfiniteQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import Loading from "@/components/Loading";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import Loader from "@/components/Loader";
 import SearchFilter from "@/components/SearchFilter";
-import { useRouter } from "next/router";
 import { searchState } from "@/atom";
 import { useRecoilValue } from "recoil";
 import StoreList from "@/components/StoreList";
@@ -17,7 +17,6 @@ const StoreListPage = () => {
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
   const searchValue = useRecoilValue(searchState);
-  const router = useRouter();
 
   const searchParams = {
     q: searchValue?.q,

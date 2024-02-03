@@ -1,20 +1,19 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable-next-line @next/next/no-img-element */
 import React from "react";
 import { useSession, signOut } from "next-auth/react";
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { CommentApiResponse } from "@/interface";
 import CommentList from "@/components/comments/CommentList";
 import Pagination from "@/components/Pagination";
 
-const MyPage = () => {
+const MyPage = ({ params }: { params: { page: string } }) => {
   const { data: session } = useSession();
 
   const { status } = useSession();
-  const router = useRouter();
-  const { page = "1" }: any = router.query;
+  const page = params?.page || "1";
 
   const fetchComments = async () => {
     const { data } = await axios.get(
