@@ -37,7 +37,7 @@ const CurrentLocationButton = () => {
         },
         () => {
           setLoading(false);
-          toast.success("현재 위치를 가져올 수 없습니다.");
+          toast.warn("현재 위치를 가져올 수 없습니다.");
         },
         options
       );

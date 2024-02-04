@@ -26,7 +26,7 @@ const StoreListPage = () => {
   const fetchStores = async ({ pageParam = 1 }) => {
     const { data } = await axios("/api/stores?page=" + pageParam, {
       params: {
-        linit: 10,
+        limit: 10,
         page: pageParam,
         ...searchParams,
       },
