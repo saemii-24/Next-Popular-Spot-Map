@@ -9,11 +9,11 @@ import { CommentApiResponse } from "@/interface";
 import CommentList from "@/components/comments/CommentList";
 import Pagination from "@/components/Pagination";
 
-const MyPage = ({ params }: { params: { page: string } }) => {
+const MyPage = ({ searchParams }: { searchParams: { page: string } }) => {
   const { data: session } = useSession();
 
   const { status } = useSession();
-  const page = params?.page || "1";
+  const page = searchParams?.page || "1";
 
   const fetchComments = async () => {
     const { data } = await axios.get(

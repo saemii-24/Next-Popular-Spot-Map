@@ -6,8 +6,8 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import Pagination from "@/components/Pagination";
 
-const LikesPage = ({ params }: { params: { page: string } }) => {
-  const page = params?.page || "1";
+const LikesPage = ({ searchParams }: { searchParams: { page: string } }) => {
+  const page = searchParams?.page || "1";
 
   const fetchLikes = async () => {
     const { data } = await axios(`/api/likes?limit=10&page=${page}`);

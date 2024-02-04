@@ -12,7 +12,12 @@ import Like from "@/components/Like";
 import { toast } from "react-toastify";
 import Comments from "@/components/comments";
 
-const StorePage = ({ params }: { params: { id: string } }) => {
+interface ParamsProps {
+  params: { id: string };
+  searchParams: { page: string };
+}
+
+const StorePage = ({ params, searchParams }: ParamsProps) => {
   const router = useRouter();
   const id = params.id;
   const { status } = useSession();
@@ -166,7 +171,7 @@ const StorePage = ({ params }: { params: { id: string } }) => {
             />
             <Marker store={store} />
           </div>
-          <Comments storeId={store.id} />
+          <Comments storeId={store.id} page={searchParams.page} />
         </>
       )}
     </>
