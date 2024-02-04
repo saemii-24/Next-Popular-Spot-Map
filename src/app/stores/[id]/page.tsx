@@ -1,4 +1,5 @@
-import { useRouter } from "next/router";
+"use client";
+import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { StoreType } from "@/interface";
@@ -11,10 +12,16 @@ import Like from "@/components/Like";
 import { toast } from "react-toastify";
 import Comments from "@/components/comments";
 
-const StorePage = () => {
+interface ParamsProps {
+  params: { id: string };
+  searchParams: { page: string };
+}
+
+const StorePage = ({ params, searchParams }: ParamsProps) => {
   const router = useRouter();
-  const { id } = router.query;
+  const id = params.id;
   const { status } = useSession();
+  console.log(params);
 
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${id}`);
@@ -165,7 +172,7 @@ const StorePage = () => {
             />
             <Marker store={store} />
           </div>
-          <Comments storeId={store.id} />
+          <Comments storeId={store.id} page={searchParams.page} />
         </>
       )}
     </>

@@ -3,24 +3,23 @@ import CommentForm from "./CommentForm";
 import { useSession } from "next-auth/react";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { useRouter } from "next/router";
 import { CommentApiResponse } from "@/interface";
 import CommentList from "./CommentList";
 import Pagination from "../Pagination";
 
 interface CommentProps {
   storeId: number;
+  page: string;
 }
 
-const Comments = ({ storeId }: CommentProps) => {
+const Comments = ({ storeId, page = "1" }: CommentProps) => {
   const { status } = useSession();
-  const router = useRouter();
-  const { page = "1" }: any = router.query;
 
   const fetchComments = async () => {
     const { data } = await axios.get(
       `/api/comments?storeId=${storeId}&limit=10&page=${page}`
     );
+    console.log(data);
     return data as CommentApiResponse;
   };
 
