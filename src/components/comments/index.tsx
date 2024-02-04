@@ -12,13 +12,14 @@ interface CommentProps {
   page: string;
 }
 
-const Comments = ({ storeId, page }: CommentProps) => {
+const Comments = ({ storeId, page = "1" }: CommentProps) => {
   const { status } = useSession();
 
   const fetchComments = async () => {
     const { data } = await axios.get(
       `/api/comments?storeId=${storeId}&limit=10&page=${page}`
     );
+    console.log(data);
     return data as CommentApiResponse;
   };
 

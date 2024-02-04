@@ -21,6 +21,7 @@ const StorePage = ({ params, searchParams }: ParamsProps) => {
   const router = useRouter();
   const id = params.id;
   const { status } = useSession();
+  console.log(params);
 
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${id}`);
